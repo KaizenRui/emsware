@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const { 
-  searchStock, 
-} = require('../controllers/searchStock');
+  searchPart, 
+} = require('../controllers/searchPart');
 
-router.post('/', searchStock);
+router.post('/', searchPart);
 
 module.exports = router;

@@ -5,10 +5,10 @@ export default function Stockcodes() {
     <main>
       <h1 className="font-bold">Manage Stockcodes</h1> <br />
       <ul>
-        <li><Link href="/stockcodes/addemc">Add EMC Stockcode</Link></li>
-        <li><Link href="/stockcodes/searchemc">Search EMC Stockcode</Link></li>
-        <li><Link href="/stockcodes/editemc">Edit EMC Stockcode</Link></li>
-        <li><Link href="/stockcodes/delete">Delete EMC Stockcode</Link></li> <br />
+        <li><Link href="/stockcodes/addemc">Register New Part Number</Link></li>
+        <li><Link href="/stockcodes/searchemc">Search Part Number</Link></li>
+        <li><Link href="/stockcodes/editemc">Edit Data</Link></li>
+        <li><Link href="/stockcodes/deleteemc">Delete Part Number</Link></li> <br />
         <li><Link href="/dashboard">Back to Dashboard</Link></li>
       </ul>
     </main>

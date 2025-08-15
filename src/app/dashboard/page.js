@@ -7,6 +7,7 @@ export default function Dashboard() {
       <nav>
         <ul>
           <li><Link href="/stockcodes">Manage Stockcodes</Link></li>
+          <li><Link href="/billofmaterials">Manage Bill of Materials</Link></li>
         </ul>
       </nav>
     </main>

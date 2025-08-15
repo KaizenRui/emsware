@@ -1,7 +1,10 @@
 const express = require('express');
 const session = require('express-session');
 const cors = require('cors');
-const searchStock = require('./routes/searchStock');
+const addPart = require('./routes/addPart');
+const searchPart = require('./routes/searchPart');
+const partdupliCheck = require('./routes/partdupliCheck');
+const uploadBom = require('./routes/uploadBom');
 
 const app = express();
 const PORT = 4000;
@@ -26,7 +29,10 @@ app.use(session({
   }
 }));
 
-app.use('/stocksearch', searchStock);
+app.use('/partadd', addPart);
+app.use('/partsearch', searchPart);
+app.use('/partduplicheck', partdupliCheck);
+app.use('/bomupload', uploadBom);
 
 app.get('/', (req, res) => {
   res.send('SERVER IS STABLE AND RUNNING');

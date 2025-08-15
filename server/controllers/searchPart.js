@@ -2,7 +2,7 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-async function searchStock(req, res) {
+async function searchPart(req, res) {
   const { stockcode } = req.body;
   
   if (!stockcode) return res.status(400).json({ error: 'stockcode is required' });
@@ -10,11 +10,21 @@ async function searchStock(req, res) {
   try {
     const rows = await prisma.stockcode.findMany({
       where: {
-        emc: {
-          contains: stockcode,
-          mode: 'insensitive',
-        }
-      }
+        OR: [
+          {
+            emc: {
+              contains: stockcode,
+              mode: 'insensitive',
+            },
+          },
+          {
+            custpn: {
+              contains: stockcode,
+              mode: 'insensitive',
+            },
+          },
+        ],
+      },
     });
 
     if (rows.length === 0)
@@ -27,5 +37,4 @@ async function searchStock(req, res) {
   }
 }
 
-
-module.exports = { searchStock };
+module.exports = { searchPart };
