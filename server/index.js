@@ -4,6 +4,7 @@ const cors = require('cors');
 const addPart = require('./routes/addPart');
 const searchPart = require('./routes/searchPart');
 const partdupliCheck = require('./routes/partdupliCheck');
+const loginlogut = require('./routes/sessions/login-out');
 const uploadBom = require('./routes/uploadBom');
 
 const app = express();
@@ -33,6 +34,7 @@ app.use('/partadd', addPart);
 app.use('/partsearch', searchPart);
 app.use('/partduplicheck', partdupliCheck);
 app.use('/bomupload', uploadBom);
+app.use('/sessions', loginlogut);
 
 app.get('/', (req, res) => {
   res.send('SERVER IS STABLE AND RUNNING');

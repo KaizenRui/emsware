@@ -46,4 +46,12 @@ model bomitems {
   @@index([bom_id])
   @@index([emc])
   @@unique([bom_id, emc])
+
 }
+
+  model User {
+  id       Int    @id @default(autoincrement())
+  username String @unique
+  password String
+  role     String @default("user")
+  }
