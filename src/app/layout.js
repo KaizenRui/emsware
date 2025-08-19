@@ -1,16 +1,22 @@
-import MainLayout from "./components/MainLayout";
 import "./globals.css";
+import MainLayout2 from "./components/MainLayout2";
+import { Orbitron } from "next/font/google";
+
+const orbitron = Orbitron({
+  subsets: ["latin"],
+  weight: ["400", "500", "700"], // choose available weights
+});
 
 export const metadata = {
   title: "EMSWARE",
   description: "COMING SOON!",
 };
-  
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>
-        <MainLayout>{children}</MainLayout>
+      <body className={orbitron.className}>
+        <MainLayout2>{children}</MainLayout2>
       </body>
     </html>
   );
