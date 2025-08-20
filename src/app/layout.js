@@ -1,5 +1,5 @@
 import "./globals.css";
-import MainLayout2 from "./components/MainLayout2";
+import MainLayout from "./components/MainLayout";
 import { Orbitron } from "next/font/google";
 
 const orbitron = Orbitron({
@@ -16,7 +16,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={orbitron.className}>
-        <MainLayout2>{children}</MainLayout2>
+        <MainLayout>{children}</MainLayout>
       </body>
     </html>
   );
