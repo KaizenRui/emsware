@@ -1,15 +1,8 @@
-import Link from 'next/link';
-
-export default function Dashboard() {
+export default function DashboardPage() {
   return (
-    <main>
-      <h1 className="font-bold">Welcome to Dashboard</h1> <br />
-      <nav>
-        <ul>
-          <li><Link href="/stockcodes">Manage Stockcodes</Link></li>
-          <li><Link href="/billofmaterials">Manage Bill of Materials</Link></li>
-        </ul>
-      </nav>
-    </main>
+    <div className="p-4 text-white">
+      <h1 className="text-2xl font-bold"></h1>
+      <p></p>
+    </div>
   );
 }

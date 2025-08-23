@@ -7,7 +7,9 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'custom-cyan': '#00ffff',
+        charcoal: "#111827",  
+        steelGray: "#6B7280",      
+        pureWhite: "#FFFFFF",   
       },
       fontSize: {
         sml: '20px',
