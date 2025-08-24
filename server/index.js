@@ -6,6 +6,8 @@ const searchPart = require('./routes/searchPart');
 const partdupliCheck = require('./routes/partdupliCheck');
 const loginlogut = require('./routes/sessions/login-out');
 const uploadBom = require('./routes/uploadBom');
+const searchBOM = require('./routes/billofmaterials/searchBOM');
+const queryBOM = require('./routes/billofmaterials/queryBOM');
 
 const app = express();
 const PORT = 4000;
@@ -35,6 +37,8 @@ app.use('/partsearch', searchPart);
 app.use('/partduplicheck', partdupliCheck);
 app.use('/bomupload', uploadBom);
 app.use('/sessions', loginlogut);
+app.use('/searchbom', searchBOM);
+app.use('/bomquery', queryBOM);
 
 app.get('/', (req, res) => {
   res.send('SERVER IS STABLE AND RUNNING');

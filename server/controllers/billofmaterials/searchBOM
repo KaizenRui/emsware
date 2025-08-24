@@ -1,0 +1,35 @@
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
+
+async function searchBOM(req, res) {
+  const { keyword } = req.query;
+
+  if (!keyword || keyword.trim() === '') {
+    return res.status(200).json([]);
+  }
+
+  try {
+    const results = await prisma.billofmaterials.findMany({
+      where: {
+        bom_name: {
+          contains: keyword,
+          mode: 'insensitive',
+        },
+      },
+      select: {
+        bom_id: true,
+        bom_name: true,
+        customer: true,
+        revisionno: true,
+      },
+      take: 10,
+    });
+
+    res.json(results);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+}
+
+module.exports = { searchBOM };
