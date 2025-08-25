@@ -1,12 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 export default function BomUploadPage() {
   const [file, setFile] = useState(null);
   const [status, setStatus] = useState("");
+  const [show, setShow] = useState(false); // new state for animation
   const router = useRouter();
+
+  useEffect(() => {
+    setShow(true); // triggers floating animation on mount
+  }, []);
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
@@ -44,16 +49,20 @@ export default function BomUploadPage() {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
-      <div className="bg-[#1f2937] rounded-md shadow-lg p-6 w-[500px] relative">
+      <div
+        className={`bg-gray-300 text-black rounded-md shadow-lg p-6 w-[500px] relative
+          transform transition-all duration-300 ease-out
+          ${show ? "scale-100 opacity-100" : "scale-50 opacity-0"}`}
+      >
 
         <button
           onClick={() => router.push("/dashboard/navigation/billofmaterials")}
-          className="absolute top-3 right-3 text-white font-bold text-xl"
+          className="absolute top-3 right-3 text-red-500 font-bold text-2xl"
         >
           ×
         </button>
 
-        <h2 className="text-2xl font-bold mb-4 text-white">Bill of Materials</h2>
+        <h2 className="text-2xl font-bold mb-4 text-black">Bill of Materials</h2>
 
         {status !== "BOM Generation Successful" ? (
           <form onSubmit={handleSubmit} className="flex flex-col gap-2">

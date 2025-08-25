@@ -20,25 +20,29 @@ model stockcode {
 
 model billofmaterials {
   bom_id        Int         @id @default(autoincrement())
+  parent_bom_id Int?
   customer      String?
   bom_name      String
   revisionno    Int?
   revision_date DateTime?
   history       String?
+  status        String?
 
   bomItems      bomitems[]
+  historyLogs   bom_history[]
 }
 
 model bomitems {
-  id          Int        @id @default(autoincrement())
-  bom_id      Int        // foreign key to billofmaterials
+  id            Int        @id @default(autoincrement())
+  bom_id        Int
   bom_name    String?    // optional: store BOM name for reference
-  emc         String
-  quantity    Int
-  designators String      // PCB locations (e.g., component placement on board)
-  mpn1        String      // Manufacturer Part Number 1
-  pcb_side    String?     // Optional PCB side
-  processdept String?     // Optional process department
+  emc           String
+  quantity      Int
+  designators   String
+  mpn1          String
+  pcb_side      String?
+  processdept   String?
+  revision_note String?
 
   bom  billofmaterials @relation(fields: [bom_id], references: [bom_id])
   part stockcode       @relation("PartBOMItems", fields: [emc], references: [emc])
@@ -46,12 +50,27 @@ model bomitems {
   @@index([bom_id])
   @@index([emc])
   @@unique([bom_id, emc])
-
 }
 
-  model User {
+
+model bom_history {
+  id          Int       @id @default(autoincrement())
+  bom_id      Int
+  revisionno  Int
+  emc         String?
+  change_type String
+  old_value   Int?
+  new_value   Int?
+  changed_by  Int
+  changed_at  DateTime  @default(now())
+  notes       String?
+
+  bom billofmaterials @relation(fields: [bom_id], references: [bom_id])
+}
+
+model User {
   id       Int    @id @default(autoincrement())
   username String @unique
   password String
   role     String @default("user")
-  }
+}

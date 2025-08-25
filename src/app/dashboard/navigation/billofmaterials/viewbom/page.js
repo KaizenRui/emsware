@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import BOMSearchBar from "./components/BOMSearchBar";
 import BOMTableBody from "./components/BOMTableBody";
 
@@ -7,6 +7,20 @@ export default function ViewBillofmaterials() {
   const [filteredRows, setFilteredRows] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedBOM, setSelectedBOM] = useState(null);
+
+  const [showTable, setShowTable] = useState(false);
+  const [showSearchBar, setShowSearchBar] = useState(false);
+
+  useEffect(() => {
+
+    setShowTable(true);
+
+    const timer = setTimeout(() => {
+      setShowSearchBar(true);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleSelectBOM = async (bom) => {
     setSelectedBOM(bom);
@@ -28,9 +42,21 @@ export default function ViewBillofmaterials() {
   };
 
   return (
-    <div className="ml-5 w-[1250px]">
-      <BOMSearchBar onSelect={handleSelectBOM} />
-      <BOMTableBody rows={filteredRows} loading={loading} />
+    <div className="ml-5 w-[1250px] relative"> {}
+
+      <div
+        className={`transition-transform duration-200 ease-out relative z-20
+          ${showSearchBar ? "translate-x-0 opacity-100" : "-translate-x-48 opacity-0"}`}
+      >
+        <BOMSearchBar onSelect={handleSelectBOM} />
+      </div>
+
+      <div
+        className={`relative transform transition-all duration-200 ease-out z-10
+          ${showTable ? "scale-100 opacity-100" : "scale-50 opacity-0"}`}
+      >
+        <BOMTableBody rows={filteredRows} loading={loading} />
+      </div>
     </div>
   );
 }

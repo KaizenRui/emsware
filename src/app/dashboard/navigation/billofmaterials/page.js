@@ -25,18 +25,18 @@ export default function BillOfMaterials() {
   return (
     <div className="mt-24 ml-16 w-[1150px] p-4 grid grid-cols-3 gap-6">
       {menuItems.map((item, idx) => (
-        <Link
-          key={idx}
-          href={item.href}
-          className={`
-            flex items-center justify-center h-[200px] w-full
-            rounded-md cursor-pointer transition-all duration-300
-            border font-bold border-gray-400
-            hover:shadow-black/50 hover:shadow-lg hover:bg-gray-400
-            ${visible.includes(idx) ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}
-          `}
-        >
-          {item.label}
+        <Link key={idx} href={item.href} className="w-full">
+          <div
+            className={`
+              text-black flex items-center justify-center h-[200px] w-full
+              rounded-md cursor-pointer transition-all duration-300
+              border font-bold border-gray-400
+              hover:bg-gradient-to-r from-blue-200 to-gray-400
+              ${visible.includes(idx) ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}
+            `}
+          >
+            {item.label}
+          </div>
         </Link>
       ))}
     </div>
