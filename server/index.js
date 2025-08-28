@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const express = require('express');
 const session = require('express-session');
 const cors = require('cors');
@@ -7,7 +9,6 @@ const path = require('path');
 const app = express();
 const PORT = 4000;
 
-// ✅ Middleware
 const allowedOrigins = ['http://localhost:3000'];
 
 app.use(cors({
@@ -28,14 +29,14 @@ app.use(session({
   }
 }));
 
-// ✅ Recursive route loader
+
 function loadRoutes(folderPath, baseRoute = '') {
   fs.readdirSync(folderPath).forEach(file => {
     const fullPath = path.join(folderPath, file);
     const stats = fs.statSync(fullPath);
 
     if (stats.isDirectory()) {
-      // Recursively load subfolders
+
       loadRoutes(fullPath, `${baseRoute}/${file}`);
     } else if (file.endsWith('.js')) {
       const route = require(fullPath);
@@ -46,15 +47,12 @@ function loadRoutes(folderPath, baseRoute = '') {
   });
 }
 
-// ✅ Load all routes from the routes folder
 loadRoutes(path.join(__dirname, 'routes'));
 
-// ✅ Default route
 app.get('/', (req, res) => {
   res.send('SERVER IS STABLE AND RUNNING');
 });
 
-// ✅ Start server
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });

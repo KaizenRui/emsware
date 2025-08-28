@@ -12,7 +12,6 @@ export default function ViewBillofmaterials() {
   const [showSearchBar, setShowSearchBar] = useState(false);
 
   useEffect(() => {
-
     setShowTable(true);
 
     const timer = setTimeout(() => {
@@ -28,7 +27,7 @@ export default function ViewBillofmaterials() {
 
     try {
       const res = await fetch(
-        `http://localhost:4000/bomquery?bom_name=${encodeURIComponent(bom.bom_name)}`
+        `http://localhost:4000/billofmaterials/queryBOM?bom_name=${encodeURIComponent(bom.bom_name)}`
       );
 
       const data = await res.json();
@@ -42,17 +41,18 @@ export default function ViewBillofmaterials() {
   };
 
   return (
-    <div className="ml-5 w-[1250px] relative"> {}
-
+    <div className="ml-5 w-[1250px] relative">
+      {/* Search bar with dropdown animation */}
       <div
-        className={`transition-transform duration-200 ease-out relative z-20
-          ${showSearchBar ? "translate-x-0 opacity-100" : "-translate-x-48 opacity-0"}`}
+        className={`transition-all duration-300 ease-out relative z-20
+          ${showSearchBar ? "translate-y-0 opacity-100" : "-translate-y-10 opacity-0"}`}
       >
         <BOMSearchBar onSelect={handleSelectBOM} />
       </div>
 
+      {/* Table with scale animation */}
       <div
-        className={`relative transform transition-all duration-200 ease-out z-10
+        className={`relative transform transition-all duration-300 ease-out z-10
           ${showTable ? "scale-100 opacity-100" : "scale-50 opacity-0"}`}
       >
         <BOMTableBody rows={filteredRows} loading={loading} />

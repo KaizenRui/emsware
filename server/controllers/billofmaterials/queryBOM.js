@@ -14,21 +14,22 @@ async function queryBOM(req, res) {
         bom_name: bom_name
       },
       include: {
-        part: true, 
-        bom: true  
+        part: true,
+        bom: true
       }
     });
 
     const formatted = items.map((item) => ({
-      emcStockCode: item.emc,
-      quantity: item.quantity,
       designators: item.designators,
-      pcbSide: item.pcb_side || "",
-      customerPN: item.part?.custpn || "",
       value: item.part?.value || "",
+      process: item.processdept || "",
+      pcbSide: item.pcb_side || "",
+      quantity: item.quantity,
+      emcStockCode: item.emc,
+      customerPN: item.part?.custpn || "",
       manufacturerPN: item.mpn1,
-      process: item.processdept || ""
     }));
+
 
     res.json(formatted);
   } catch (err) {

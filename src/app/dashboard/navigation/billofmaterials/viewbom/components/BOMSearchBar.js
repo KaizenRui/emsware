@@ -17,9 +17,7 @@ export default function BOMSearchBar({ onSelect }) {
     const fetchBOMs = async () => {
       try {
         const res = await fetch(
-          `http://localhost:4000/searchbom?keyword=${encodeURIComponent(
-            keyword
-          )}`
+          `http://localhost:4000/billofmaterials/searchBOM?keyword=${keyword}`
         );
         const data = await res.json();
         setResults(data);

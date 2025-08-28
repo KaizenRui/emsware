@@ -1,14 +1,14 @@
 "use client";
 
 const columns = [
-  { key: "emcStockCode", label: "EMC STOCKCODE" },
-  { key: "quantity", label: "QUANTITY" },
   { key: "designators", label: "DESIGNATORS" },
-  { key: "pcbSide", label: "PCB SIDE" },
-  { key: "customerPartNumber", label: "CUSTOMER PARTNUMBER" },
   { key: "value", label: "VALUE" },
-  { key: "manufacturerPN", label: "MANUFACTURER PN" },
   { key: "process", label: "PROCESS" },
+  { key: "pcbSide", label: "PCB SIDE" },
+  { key: "quantity", label: "QUANTITY" },
+  { key: "emcStockCode", label: "EMC STOCKCODE" },
+  { key: "customerPartNumber", label: "CUSTOMER PARTNUMBER" },
+  { key: "manufacturerPN", label: "MANUFACTURER PN" },
 ];
 
 export default function BOMTableHeader() {
