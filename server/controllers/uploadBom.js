@@ -26,25 +26,30 @@ async function uploadBom(req, res) {
 
     const originalFileName = req.file.originalname || "default.xlsx";
     const bomName = originalFileName.replace(/\.[^/.]+$/, "");
-
     const now = new Date();
-    let bom = await prisma.billofmaterials.findFirst({
+
+    const latestBom = await prisma.billofmaterials.findFirst({
       where: { bom_name: bomName },
+      orderBy: { revisionno: "desc" },
     });
 
-    if (!bom) {
-      bom = await prisma.billofmaterials.create({
-        data: {
-          bom_name: bomName,
-          revision_date: now,
-        },
-      });
-    } else {
-      bom = await prisma.billofmaterials.update({
-        where: { bom_id: bom.bom_id },
-        data: { revision_date: now },
+    let newRevision = parseInt(req.body.revisionno ?? 0);
+
+    if (latestBom && newRevision <= latestBom.revisionno) {
+      return res.status(400).json({
+        error: `Invalid revision number. Latest revision is ${latestBom.revisionno}, new revision must be higher.`,
       });
     }
+
+    const bom = await prisma.billofmaterials.create({
+      data: {
+        bom_name: bomName,
+        revision_date: now,
+        revisionno: newRevision,
+        customer: req.body.customer,
+        description: req.body.description,
+      },
+    });
 
     for (let i = 1; i < jsonData.length; i++) {
       const row = jsonData[i];
@@ -59,13 +64,12 @@ async function uploadBom(req, res) {
       const processdept =
         row[headerMap["PROCESS"]] || row[headerMap["PROCESS DEPT"]] || null;
 
-      if (!emc) continue; 
+      if (!emc) continue;
 
-      const stock = await prisma.stockcode.findUnique({
+      let stockRecord = await prisma.stockcode.findFirst({
         where: { emc },
       });
 
-      let stockRecord = stock;
       if (!stockRecord) {
         stockRecord = await prisma.stockcode.create({
           data: {
@@ -77,21 +81,30 @@ async function uploadBom(req, res) {
         });
       }
 
-      await prisma.bomitems.create({
-        data: {
-          bom_id: bom.bom_id,
-          bom_name: bom.bom_name,
-          emc: stockRecord.emc,
-          quantity: quantity || 0,
-          designators: row[headerMap["DESIGNATORS"]] || "",
-          pcb_side: pcb_side || null,
-          processdept: processdept,
-          mpn1: mpn1 || stockRecord.mpn1 || "",
-        },
-      });
+      try {
+        await prisma.bomitems.create({
+          data: {
+            bom_id: bom.bom_id,
+            emc: stockRecord.emc,    // 👈 use emc instead of stockcode_id
+            custpn: custpn || null,
+            quantity: quantity || 0,
+            designators: row[headerMap["DESIGNATORS"]] || "",
+            pcb_side: pcb_side || null,
+            processdept: processdept,
+            mpn1: mpn1 || stockRecord.mpn1 || "",
+          },
+        });
+      } catch (e) {
+        if (e.code === "P2002") {
+          continue;
+        }
+        throw e;
+      }
     }
 
-    return res.json({ message: "BOM uploaded and processed successfully" });
+    return res.json({
+      message: `BOM (rev ${newRevision}) uploaded successfully`,
+    });
   } catch (error) {
     console.error("Error processing BOM upload:", error);
     return res.status(500).json({ error: "Failed to process BOM file" });

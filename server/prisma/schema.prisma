@@ -7,66 +7,55 @@ generator client {
   provider = "prisma-client-js"
 }
 
+// MASTER PARTS TABLE
 model stockcode {
   id       Int        @id @default(autoincrement())
-  emc      String     @unique
-  custpn   String     @unique
+  emc      String @unique    
+  custpn   String     
   value    String?
   mpn1     String
-  qty      Int?
+  qty      Int?       
 
-  bomItems bomitems[] @relation("PartBOMItems")
+  bomItems bomitems[]
 }
 
+// BOM MASTER TABLE
 model billofmaterials {
-  bom_id        Int         @id @default(autoincrement())
-  parent_bom_id Int?
+  bom_id        Int      @id @default(autoincrement())
+
   customer      String?
   bom_name      String
-  revisionno    Int?
+  revisionno    Int      // required (no ?)
   revision_date DateTime?
-  history       String?
-  status        String?
+  description   String?  // renamed from status
 
   bomItems      bomitems[]
-  historyLogs   bom_history[]
+
+  @@unique([bom_name, revisionno])  // enforce unique revision per BOM
 }
 
-model bomitems {
-  id            Int        @id @default(autoincrement())
-  bom_id        Int
-  bom_name    String?    // optional: store BOM name for reference
-  emc           String
-  quantity      Int
-  designators   String
-  mpn1          String
-  pcb_side      String?
-  processdept   String?
-  revision_note String?
 
-  bom  billofmaterials @relation(fields: [bom_id], references: [bom_id])
-  part stockcode       @relation("PartBOMItems", fields: [emc], references: [emc])
+// BOM ITEMS TABLE
+model bomitems {
+  id          Int    @id @default(autoincrement())
+  bom_id      Int
+  emc         String
+  custpn      String?
+  quantity    Int
+  designators String
+  mpn1        String
+  pcb_side    String?
+  processdept String?
+
+  bom   billofmaterials @relation(fields: [bom_id], references: [bom_id])
+  part  stockcode       @relation(fields: [emc], references: [emc])
 
   @@index([bom_id])
   @@index([emc])
   @@unique([bom_id, emc])
+  @@unique([bom_id, custpn])
 }
 
-
-model bom_history {
-  id          Int       @id @default(autoincrement())
-  bom_id      Int
-  revisionno  Int
-  emc         String?
-  change_type String
-  old_value   Int?
-  new_value   Int?
-  changed_by  Int
-  changed_at  DateTime  @default(now())
-  notes       String?
-
-  bom billofmaterials @relation(fields: [bom_id], references: [bom_id])
-}
 
 model User {
   id       Int    @id @default(autoincrement())

@@ -11,13 +11,16 @@ async function queryBOM(req, res) {
   try {
     const items = await prisma.bomitems.findMany({
       where: {
-        bom_name: bom_name
+        bom: {
+          bom_name: bom_name, // ✅ filter via relation
+        },
       },
       include: {
         part: true,
         bom: true
       }
     });
+
 
     const formatted = items.map((item) => ({
       designators: item.designators,
