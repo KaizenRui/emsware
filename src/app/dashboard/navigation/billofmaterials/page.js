@@ -4,12 +4,12 @@ import { useState, useEffect } from "react";
 
 export default function BillOfMaterials() {
   const menuItems = [
-    { label: "GENERATE NEW BOM", href: "/dashboard/navigation/billofmaterials/uploadbom" },
-    { label: "INSPECT / VIEW BOM", href: "/dashboard/navigation/billofmaterials/viewbom" },
-    { label: "REVISE / UPDATE BOM", href: "/dashboard/navigation/billofmaterials/edit" },
-    { label: "ARCHIVE / DELETE BOM", href: "/dashboard/navigation/billofmaterials/archive" },
-    { label: "EXPORT BOM", href: "/dashboard/navigation/billofmaterials/export" },
-    { label: "BOM OVERVIEW / INSIGHTS", href: "/dashboard/navigation/billofmaterials/insights" },
+    { label: "GENERATE (NEW / REVISION)", href: "/dashboard/navigation/billofmaterials/uploadbom" },
+    { label: "INSPECT / VIEW", href: "/dashboard/navigation/billofmaterials/viewbom" },
+    //{ label: "REVISE / UPDATE BOM", href: "/dashboard/navigation/billofmaterials/edit" },
+    { label: "ARCHIVE / DELETE", href: "/dashboard/navigation/billofmaterials/archive" },
+    { label: "EXPORT", href: "/dashboard/navigation/billofmaterials/export" },
+    { label: "OVERVIEW / INSIGHTS", href: "/dashboard/navigation/billofmaterials/insights" },
   ];
 
   const [visible, setVisible] = useState([]);

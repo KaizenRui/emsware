@@ -85,7 +85,7 @@ async function uploadBom(req, res) {
         await prisma.bomitems.create({
           data: {
             bom_id: bom.bom_id,
-            emc: stockRecord.emc,    // 👈 use emc instead of stockcode_id
+            emc: stockRecord.emc,    
             custpn: custpn || null,
             quantity: quantity || 0,
             designators: row[headerMap["DESIGNATORS"]] || "",
