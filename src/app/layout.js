@@ -1,5 +1,5 @@
 import "./globals.css";
-import { Orbitron } from "next/font/google";
+import MainBody from "./components/MainBody";
 
 export const metadata = {
   title: "EMSWARE",
@@ -9,7 +9,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        {children} {}
+        <MainBody>
+          {children}
+        </MainBody>
       </body>
     </html>
   );
